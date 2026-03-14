@@ -139,7 +139,21 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-3xl font-bold text-gold-200">Dashboard</h1>
+        <div>
+          <h1 className="text-3xl font-bold text-gold-200">Dashboard</h1>
+          <div className="mt-2 flex items-center gap-3">
+            <span className="welcome-glow text-lg font-medium">
+              bienvenido chupapija
+            </span>
+            <div className="flex shrink-0 rounded-lg bg-dark-600/90 p-1.5 ring-1 ring-gold-300/40">
+              <img
+                src="/adminIc.png"
+                alt="Admin"
+                className="h-10 w-10 object-contain"
+              />
+            </div>
+          </div>
+        </div>
         <div className="flex items-center gap-2">
           <div className="flex rounded-lg border border-gold-300/20 bg-dark-800 p-1">
             {PERIOD_OPTIONS.map((opt) => (
