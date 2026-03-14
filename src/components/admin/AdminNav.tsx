@@ -1,0 +1,128 @@
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { LogOut, Menu, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useAuthStore } from '@/store/auth';
+import { useToast } from '@/hooks/useToast';
+
+const navLinks = [
+  { href: '/admin/dashboard', label: 'Dashboard' },
+  { href: '/admin/products', label: 'Productos' },
+  { href: '/admin/categories', label: 'Categorías' },
+  { href: '/admin/orders', label: 'Pedidos' },
+] as const;
+
+export function AdminNav() {
+  const pathname = usePathname();
+  const router = useRouter();
+  const toast = useToast();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const handleLogout = () => {
+    setMobileOpen(false);
+    useAuthStore.getState().logout();
+    toast.success('Sesión cerrada');
+    router.push('/admin/login');
+  };
+
+  const linkClass = (isActive: boolean) =>
+    `block text-sm font-medium uppercase tracking-wide transition-colors ${
+      isActive
+        ? 'border-l-2 border-gold-300 text-gold-200'
+        : 'text-white/70 hover:text-white'
+    }`;
+
+  return (
+    <nav className="sticky top-0 z-50 border-b border-gold-300/20 bg-dark-800">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
+        <Link
+          href="/admin/dashboard"
+          className="text-xl font-bold text-gold-200 transition-colors hover:text-gold-100"
+          onClick={() => setMobileOpen(false)}
+        >
+          miinuta Admin
+        </Link>
+
+        {/* Desktop nav */}
+        <div className="hidden items-center gap-6 md:flex">
+          {navLinks.map(({ href, label }) => {
+            const isActive = pathname === href;
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={`text-sm font-medium uppercase tracking-wide transition-colors ${
+                  isActive
+                    ? 'border-b-2 border-gold-300 text-gold-200'
+                    : 'text-white/70 hover:text-white'
+                }`}
+              >
+                {label}
+              </Link>
+            );
+          })}
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-white/70 transition-colors hover:bg-dark-700 hover:text-white"
+            aria-label="Cerrar sesión"
+          >
+            <LogOut className="size-4" />
+            Cerrar sesión
+          </button>
+        </div>
+
+        {/* Mobile menu button */}
+        <button
+          type="button"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="rounded-lg p-2 text-white/70 transition-colors hover:bg-dark-700 hover:text-white md:hidden"
+          aria-label={mobileOpen ? 'Cerrar menú' : 'Abrir menú'}
+          aria-expanded={mobileOpen}
+        >
+          {mobileOpen ? <X className="size-6" /> : <Menu className="size-6" />}
+        </button>
+      </div>
+
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden border-t border-gold-300/10 md:hidden"
+          >
+            <div className="flex flex-col gap-1 px-4 py-4">
+              {navLinks.map(({ href, label }) => {
+                const isActive = pathname === href;
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    onClick={() => setMobileOpen(false)}
+                    className={`${linkClass(isActive)} px-4 py-3 rounded-lg hover:bg-dark-700/50`}
+                  >
+                    {label}
+                  </Link>
+                );
+              })}
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="flex items-center gap-2 px-4 py-3 text-left text-sm font-medium text-white/70 transition-colors hover:bg-dark-700/50 hover:text-white rounded-lg"
+              >
+                <LogOut className="size-4" />
+                Cerrar sesión
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </nav>
+  );
+}
