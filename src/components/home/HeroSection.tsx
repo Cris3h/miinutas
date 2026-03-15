@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import {
-  DELIVERY_ZONE,
   WHATSAPP_NUMBER,
   WHATSAPP_MESSAGE,
   WHATSAPP_MESSAGE_DELIVERY,
@@ -109,7 +108,9 @@ export function HeroSection() {
             whileTap={{ scale: 0.95 }}
           >
             <MapPin className="h-5 w-5 shrink-0 text-gold-200" />
-            <span className="font-medium text-gold-100">{DELIVERY_ZONE}</span>
+            <span className="font-medium text-gold-100">
+              Delivery: Averigua si llegamos a tu zona
+            </span>
           </motion.a>
         </motion.footer>
       </div>
