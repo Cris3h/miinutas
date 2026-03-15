@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { ConditionalLayout } from '@/components/layout/ConditionalLayout';
+import { WhatsAppButton } from '@/components/layout/WhatsAppButton';
 import { ToastContainer } from '@/components/ui/ToastContainer';
 
 const geistSans = Geist({
@@ -32,6 +33,7 @@ export default function RootLayout({
       >
         <ConditionalLayout>{children}</ConditionalLayout>
         <ToastContainer />
+        <WhatsAppButton />
       </body>
     </html>
   );
