@@ -1,12 +1,21 @@
 'use client';
 
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { CheckCircle } from 'lucide-react';
+import { useCartStore } from '@/store/cart';
 import { Button } from '@/components/ui/Button';
 import { PageTransition } from '@/components/layout/PageTransition';
 
 export default function PaymentSuccessPage() {
+  const clearCart = useCartStore((s) => s.clearCart);
+
+  useEffect(() => {
+    // Limpiar el carrito solo cuando el pago se confirmó exitosamente
+    clearCart();
+  }, [clearCart]);
+
   return (
     <PageTransition>
       <main className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-dark-900 px-4 py-12">

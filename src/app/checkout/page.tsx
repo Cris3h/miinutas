@@ -15,7 +15,7 @@ import { PageTransition } from '@/components/layout/PageTransition';
 export default function CheckoutPage() {
   const router = useRouter();
   const toast = useToast();
-  const { items, getTotal, clearCart } = useCartStore();
+  const { items, getTotal } = useCartStore();
   const [loading, setLoading] = useState(false);
 
   const total = getTotal();
@@ -55,8 +55,7 @@ export default function CheckoutPage() {
 
         const { initPoint } = await api.createPaymentPreference(order._id);
 
-        clearCart();
-
+        // No limpiar el carrito aquí: se limpia solo en /payment/success cuando el pago se confirma
         window.location.href = initPoint;
       } catch (err) {
         setLoading(false);
@@ -69,7 +68,7 @@ export default function CheckoutPage() {
         }
       }
     },
-    [items, clearCart, toast]
+    [items, toast]
   );
 
   if (items.length === 0) {
