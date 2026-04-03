@@ -143,7 +143,7 @@ export function MenuContent() {
             Nuestro Menú
           </h1>
           <p className="mt-2 text-lg text-white/70">
-            Explorá nuestra selección de milanesas y empanados
+            Explorá nuestra selección de milanesas
           </p>
         </div>
 

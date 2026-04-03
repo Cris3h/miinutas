@@ -24,7 +24,7 @@ export function Footer() {
           <div>
             <h3 className="text-2xl font-bold text-gold-200">miinuta</h3>
             <p className="mt-2 text-sm text-white/80">
-              Milanesas y empanados con onda.
+              Milanesas con onda.
             </p>
             <p className="mt-1 text-sm text-white/50">
               Cocina casera, sabor de verdad.
