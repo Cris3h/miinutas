@@ -137,13 +137,13 @@ export function MenuContent() {
 
   return (
     <>
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl px-3 py-6 sm:px-6 sm:py-8 lg:px-8">
         <div className="mb-8 text-center">
           <h1 className="text-4xl font-bold text-gold-200 sm:text-5xl">
             Nuestro Menú
           </h1>
           <p className="mt-2 text-lg text-white/70">
-            Explorá nuestra selección de milanesas y empanados
+            Explorá nuestra selección de milanesas
           </p>
         </div>
 
@@ -224,7 +224,7 @@ export function MenuContent() {
 
         {!productsError && (
           <>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-start">
+            <div className="grid grid-cols-1 grid-rows-[auto] gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
               {isLoading
                 ? Array.from({ length: ITEMS_PER_PAGE }).map((_, i) => (
                     <ProductCardSkeleton key={i} />

@@ -18,7 +18,7 @@ export function SearchBar({ value, onChange }: SearchBarProps) {
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        placeholder="Buscar milanesas, empanados..."
+        placeholder="Buscar milanesas..."
         className="w-full rounded-xl border border-gold-300/20 bg-dark-800 py-3 pl-12 pr-12 text-white placeholder:text-white/50 focus:border-gold-300/50 focus:outline-none focus:ring-2 focus:ring-gold-300/20"
       />
       {value && (
