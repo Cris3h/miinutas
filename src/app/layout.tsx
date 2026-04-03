@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'miinuta — Milanesas y empanados',
+  title: 'miinuta — Milanesas con mucho sabor',
   description:
-    'Milanesas y empanados con onda. Cocina casera, sabor de verdad.',
+    'La verdadera milanesa artesanal. Crujiente por fuera, increíble por dentro.',
 };
 
 export default function RootLayout({
