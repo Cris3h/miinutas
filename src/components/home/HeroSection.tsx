@@ -64,7 +64,7 @@ export function HeroSection() {
           transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
           className="mt-4 max-w-md text-lg text-white/95 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] sm:text-xl"
         >
-          Milanesas con onda. Cocina casera, sabor de verdad.
+          La verdadera milanesa artesanal. Crujiente por fuera, increíble por dentro.
         </motion.p>
 
         <motion.div
