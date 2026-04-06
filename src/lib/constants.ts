@@ -1,5 +1,9 @@
 export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4001';
 
+/** Hero de la landing y preview al compartir (WhatsApp, redes, etc.) */
+export const SITE_LANDING_IMAGE_URL =
+  'https://res.cloudinary.com/dj1hi4rjf/image/upload/v1773515597/img50.jpg';
+
 export const SITE_NAME = 'miinuta';
 export const CONTACT_PHONE = '+549 2364 26-1926';
 export const DELIVERY_ZONE = 'Junín (B) y alrededores';

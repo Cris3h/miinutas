@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import {
+  SITE_LANDING_IMAGE_URL,
   WHATSAPP_NUMBER,
   WHATSAPP_MESSAGE,
   WHATSAPP_MESSAGE_DELIVERY,
@@ -24,9 +25,6 @@ function WhatsAppIcon({ className }: { className?: string }) {
   );
 }
 
-const HERO_BG_IMAGE =
-  'https://res.cloudinary.com/dj1hi4rjf/image/upload/v1773515597/img50.jpg';
-
 export function HeroSection() {
   const whatsappUrl = getWhatsAppUrl(WHATSAPP_NUMBER, WHATSAPP_MESSAGE);
   const whatsappDeliveryUrl = getWhatsAppUrl(
@@ -39,7 +37,7 @@ export function HeroSection() {
       {/* Background image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${HERO_BG_IMAGE})` }}
+        style={{ backgroundImage: `url(${SITE_LANDING_IMAGE_URL})` }}
         aria-hidden
       />
       {/* Dark blur overlay for contrast */}
