@@ -16,6 +16,7 @@ const INITIAL_DATA: CheckoutFormData = {
   customerName: '',
   customerPhone: '',
   customerAddress: '',
+  customerZipCode: '',
   customerEmail: '',
   notes: '',
 };
@@ -71,6 +72,7 @@ export function CheckoutForm({ onSubmit, loading }: CheckoutFormProps) {
       customerName: data.customerName.trim(),
       customerPhone: data.customerPhone.trim(),
       customerAddress: data.customerAddress?.trim() || undefined,
+      customerZipCode: data.customerZipCode?.trim() || undefined,
       customerEmail: data.customerEmail?.trim() || undefined,
       notes: data.notes?.trim() || undefined,
     });
@@ -144,6 +146,30 @@ export function CheckoutForm({ onSubmit, loading }: CheckoutFormProps) {
           value={data.customerAddress || ''}
           onChange={(e) => handleChange('customerAddress', e.target.value)}
           placeholder="Calle 123, Rosario, Santa Fe"
+          disabled={loading}
+          className={`${inputBase} border-gold-300/20`}
+        />
+      </div>
+
+      <div>
+        <label
+          htmlFor="customerZipCode"
+          className="mb-2 block font-semibold text-gold-200"
+        >
+          Código postal
+        </label>
+        <input
+          id="customerZipCode"
+          type="text"
+          value={data.customerZipCode || ''}
+          onChange={(e) => handleChange('customerZipCode', e.target.value)}
+          onBlur={() =>
+            setData((prev) => ({
+              ...prev,
+              customerZipCode: (prev.customerZipCode ?? '').trim(),
+            }))
+          }
+          placeholder="Ej: 1234"
           disabled={loading}
           className={`${inputBase} border-gold-300/20`}
         />

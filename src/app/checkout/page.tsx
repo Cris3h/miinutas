@@ -46,6 +46,7 @@ export default function CheckoutPage() {
           customerName: data.customerName,
           customerPhone: data.customerPhone,
           customerAddress: address || undefined,
+          customerZipCode: data.customerZipCode || undefined,
           customerEmail: data.customerEmail,
           items: items.map((item) => ({
             productId: item.productId,

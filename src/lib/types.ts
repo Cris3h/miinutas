@@ -82,6 +82,7 @@ export interface CheckoutFormData {
   customerName: string;
   customerPhone: string;
   customerAddress?: string;
+  customerZipCode?: string;
   customerEmail?: string;
   notes?: string;
 }
@@ -90,6 +91,7 @@ export interface CreateOrderPayload {
   customerName: string;
   customerPhone: string;
   customerAddress?: string;
+  customerZipCode?: string;
   customerEmail?: string;
   items: { productId: string; quantity: number }[];
 }
