@@ -82,7 +82,7 @@ export function trackEvent(
     properties,
   };
 
-  const url = `${API_URL}/analytics/track`;
+  const url = `${API_URL}/a/track`;
   const bodyJson = JSON.stringify(payload);
 
   if (useBeacon) {

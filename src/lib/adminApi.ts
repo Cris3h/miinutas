@@ -162,33 +162,31 @@ export const adminApi = {
 
   getAnalyticsOverview: async (from: string, to: string) => {
     const params = new URLSearchParams({ from, to });
-    const res = await authFetch(`${API_URL}/analytics/overview?${params}`);
+    const res = await authFetch(`${API_URL}/a/overview?${params}`);
     return handleResponse<OverviewResult>(res);
   },
 
   getAnalyticsDaily: async (from: string, to: string) => {
     const params = new URLSearchParams({ from, to });
-    const res = await authFetch(`${API_URL}/analytics/daily?${params}`);
+    const res = await authFetch(`${API_URL}/a/daily?${params}`);
     return handleResponse<DailyVisit[]>(res);
   },
 
   getAnalyticsByPage: async (from: string, to: string) => {
     const params = new URLSearchParams({ from, to });
-    const res = await authFetch(`${API_URL}/analytics/by-page?${params}`);
+    const res = await authFetch(`${API_URL}/a/by-page?${params}`);
     return handleResponse<PageVisit[]>(res);
   },
 
   getAnalyticsDevices: async (from: string, to: string) => {
     const params = new URLSearchParams({ from, to });
-    const res = await authFetch(`${API_URL}/analytics/devices?${params}`);
+    const res = await authFetch(`${API_URL}/a/devices?${params}`);
     return handleResponse<DeviceBreakdown[]>(res);
   },
 
   getAnalyticsEventsSummary: async (from: string, to: string) => {
     const params = new URLSearchParams({ from, to });
-    const res = await authFetch(
-      `${API_URL}/analytics/events-summary?${params}`
-    );
+    const res = await authFetch(`${API_URL}/a/ev?${params}`);
     return handleResponse<EventSummary[]>(res);
   },
 };
