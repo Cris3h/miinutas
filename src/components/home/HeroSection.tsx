@@ -10,6 +10,7 @@ import {
   WHATSAPP_MESSAGE_DELIVERY,
 } from '@/lib/constants';
 import { getWhatsAppUrl } from '@/lib/utils';
+import { trackEvent } from '@/lib/analytics';
 import { MapPin } from 'lucide-react';
 
 function WhatsAppIcon({ className }: { className?: string }) {
@@ -88,6 +89,7 @@ export function HeroSection() {
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackEvent('whatsapp_click', { useBeacon: true })}
             className="flex flex-1 min-w-0 sm:flex-initial sm:min-w-[240px] items-center justify-center gap-2 rounded-lg border border-gold-300/30 bg-dark-800/50 px-4 py-2 transition-all hover:border-gold-300/60 hover:bg-dark-800"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -101,6 +103,7 @@ export function HeroSection() {
             href={whatsappDeliveryUrl}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackEvent('whatsapp_click', { useBeacon: true })}
             className="flex flex-1 min-w-0 sm:flex-initial sm:min-w-[240px] items-center justify-center gap-2 rounded-lg border border-gold-300/30 bg-dark-800/50 px-4 py-2 transition-all hover:border-gold-300/60 hover:bg-dark-800"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

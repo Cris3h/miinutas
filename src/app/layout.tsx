@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { ConditionalLayout } from '@/components/layout/ConditionalLayout';
+import { AnalyticsTracker } from '@/components/layout/AnalyticsTracker';
 import { ToastContainer } from '@/components/ui/ToastContainer';
 import { SITE_LANDING_IMAGE_URL, SITE_NAME } from '@/lib/constants';
 
@@ -66,6 +67,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}
       >
         <ConditionalLayout>{children}</ConditionalLayout>
+        <AnalyticsTracker />
         <ToastContainer />
       </body>
     </html>

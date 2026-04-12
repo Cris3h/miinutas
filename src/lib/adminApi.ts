@@ -11,6 +11,11 @@ import type {
   UpdateProductDto,
   CreateCategoryDto,
   UpdateCategoryDto,
+  OverviewResult,
+  DailyVisit,
+  PageVisit,
+  DeviceBreakdown,
+  EventSummary,
 } from './types';
 
 async function handleResponse<T>(res: Response): Promise<T> {
@@ -153,5 +158,37 @@ export const adminApi = {
       `${API_URL}/payments${query ? `?${query}` : ''}`
     );
     return handleResponse<PaginatedResponse<Payment>>(res);
+  },
+
+  getAnalyticsOverview: async (from: string, to: string) => {
+    const params = new URLSearchParams({ from, to });
+    const res = await authFetch(`${API_URL}/analytics/overview?${params}`);
+    return handleResponse<OverviewResult>(res);
+  },
+
+  getAnalyticsDaily: async (from: string, to: string) => {
+    const params = new URLSearchParams({ from, to });
+    const res = await authFetch(`${API_URL}/analytics/daily?${params}`);
+    return handleResponse<DailyVisit[]>(res);
+  },
+
+  getAnalyticsByPage: async (from: string, to: string) => {
+    const params = new URLSearchParams({ from, to });
+    const res = await authFetch(`${API_URL}/analytics/by-page?${params}`);
+    return handleResponse<PageVisit[]>(res);
+  },
+
+  getAnalyticsDevices: async (from: string, to: string) => {
+    const params = new URLSearchParams({ from, to });
+    const res = await authFetch(`${API_URL}/analytics/devices?${params}`);
+    return handleResponse<DeviceBreakdown[]>(res);
+  },
+
+  getAnalyticsEventsSummary: async (from: string, to: string) => {
+    const params = new URLSearchParams({ from, to });
+    const res = await authFetch(
+      `${API_URL}/analytics/events-summary?${params}`
+    );
+    return handleResponse<EventSummary[]>(res);
   },
 };

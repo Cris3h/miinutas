@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { Phone, MapPin, Clock } from 'lucide-react';
 import { getWhatsAppUrl } from '@/lib/utils';
+import { trackEvent } from '@/lib/analytics';
 import {
   WHATSAPP_NUMBER,
   WHATSAPP_MESSAGE,
@@ -64,6 +65,7 @@ export function Footer() {
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackEvent('whatsapp_click', { useBeacon: true })}
                   className="flex items-center gap-2 transition-colors hover:text-gold-200"
                 >
                   <Phone className="h-4 w-4 shrink-0" />

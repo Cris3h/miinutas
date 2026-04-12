@@ -3,17 +3,23 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { LogOut, Menu, X } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
+import { LogOut, Menu, X, BarChart3 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuthStore } from '@/store/auth';
 import { useToast } from '@/hooks/useToast';
 
-const navLinks = [
+const navLinks: readonly {
+  href: string;
+  label: string;
+  Icon?: LucideIcon;
+}[] = [
   { href: '/admin/dashboard', label: 'Dashboard' },
   { href: '/admin/products', label: 'Productos' },
   { href: '/admin/categories', label: 'Categorías' },
   { href: '/admin/orders', label: 'Pedidos' },
-] as const;
+  { href: '/admin/analytics', label: 'Analíticas', Icon: BarChart3 },
+];
 
 export function AdminNav() {
   const pathname = usePathname();
@@ -48,18 +54,19 @@ export function AdminNav() {
 
         {/* Desktop nav */}
         <div className="hidden items-center gap-6 md:flex">
-          {navLinks.map(({ href, label }) => {
+          {navLinks.map(({ href, label, Icon }) => {
             const isActive = pathname === href;
             return (
               <Link
                 key={href}
                 href={href}
-                className={`text-sm font-medium uppercase tracking-wide transition-colors ${
+                className={`flex items-center gap-1.5 text-sm font-medium uppercase tracking-wide transition-colors ${
                   isActive
                     ? 'border-b-2 border-gold-300 text-gold-200'
                     : 'text-white/70 hover:text-white'
                 }`}
               >
+                {Icon ? <Icon className="size-4 shrink-0 opacity-90" /> : null}
                 {label}
               </Link>
             );
@@ -98,15 +105,16 @@ export function AdminNav() {
             className="overflow-hidden border-t border-gold-300/10 md:hidden"
           >
             <div className="flex flex-col gap-1 px-4 py-4">
-              {navLinks.map(({ href, label }) => {
+              {navLinks.map(({ href, label, Icon }) => {
                 const isActive = pathname === href;
                 return (
                   <Link
                     key={href}
                     href={href}
                     onClick={() => setMobileOpen(false)}
-                    className={`${linkClass(isActive)} px-4 py-3 rounded-lg hover:bg-dark-700/50`}
+                    className={`${linkClass(isActive)} flex items-center gap-2 px-4 py-3 rounded-lg hover:bg-dark-700/50`}
                   >
+                    {Icon ? <Icon className="size-4 shrink-0 opacity-90" /> : null}
                     {label}
                   </Link>
                 );

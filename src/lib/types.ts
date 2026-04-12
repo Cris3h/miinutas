@@ -144,3 +144,33 @@ export interface UpdateCategoryDto {
   description?: string;
   active?: boolean;
 }
+
+export type AnalyticsPeriod = 'week' | 'month' | 'year';
+
+export interface OverviewResult {
+  totalVisits: number;
+  uniqueVisitors: number;
+  uniqueSessions: number;
+  whatsappClicks: number;
+}
+
+export interface DailyVisit {
+  date: string;
+  visits: number;
+  uniqueVisitors: number;
+}
+
+export interface PageVisit {
+  path: string;
+  visits: number;
+}
+
+export interface DeviceBreakdown {
+  device: string;
+  count: number;
+}
+
+export interface EventSummary {
+  event: string;
+  count: number;
+}
