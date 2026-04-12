@@ -67,7 +67,7 @@ function deviceLabel(device: string): string {
 }
 
 export default function AdminAnalyticsPage() {
-  const [period, setPeriod] = useState<AnalyticsPeriod>('month');
+  const [period, setPeriod] = useState<AnalyticsPeriod>('week');
   const {
     overview,
     dailyVisits,
@@ -172,7 +172,7 @@ export default function AdminAnalyticsPage() {
         ) : overview ? (
           <>
             <MetricCard
-              title="Visitas totales"
+              title="Páginas visitadas"
               value={overview.totalVisits}
               subtitle="En el período seleccionado"
               icon={<Eye className="size-8 text-gold-200/50" />}
