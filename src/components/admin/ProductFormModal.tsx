@@ -7,6 +7,7 @@ import type { Product } from '@/lib/types';
 import { adminApi } from '@/lib/adminApi';
 import { useToast } from '@/hooks/useToast';
 import { Button } from '@/components/ui/Button';
+import { ImageUploader } from '@/components/ImageUploader';
 
 export interface CategoryOption {
   _id: string;
@@ -75,11 +76,13 @@ export function ProductFormModal({
   const [data, setData] = useState<FormData>(initialFormData);
   const [errors, setErrors] = useState<FormErrors>({});
   const [loading, setLoading] = useState(false);
+  const [imageUploading, setImageUploading] = useState(false);
 
   const isEdit = !!product;
 
   useEffect(() => {
     if (isOpen) {
+      setImageUploading(false);
       if (product) {
         setData({
           name: product.name,
@@ -103,6 +106,7 @@ export function ProductFormModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (imageUploading) return;
     const formErrors = validateForm(data, isEdit);
     setErrors(formErrors);
     if (Object.values(formErrors).some(Boolean)) return;
@@ -264,30 +268,19 @@ export function ProductFormModal({
 
               <div>
                 <label className="mb-2 block font-semibold text-gold-200">
-                  URL de imagen
+                  Imagen del producto
                 </label>
-                <input
-                  type="url"
+                <ImageUploader
                   value={data.imageUrl}
-                  onChange={(e) =>
-                    setData((prev) => ({ ...prev, imageUrl: e.target.value }))
+                  onUploadSuccess={(secureUrl) =>
+                    setData((prev) => ({ ...prev, imageUrl: secureUrl }))
                   }
-                  placeholder="https://..."
+                  onClear={() =>
+                    setData((prev) => ({ ...prev, imageUrl: '' }))
+                  }
+                  onUploadingChange={setImageUploading}
                   disabled={loading}
-                  className={`${inputBase} border-gold-300/20`}
                 />
-                {data.imageUrl && (
-                  <div className="mt-2">
-                    <img
-                      src={data.imageUrl}
-                      alt="Preview"
-                      className="h-24 w-24 rounded-lg object-cover"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                      }}
-                    />
-                  </div>
-                )}
               </div>
 
               <div>
@@ -365,12 +358,17 @@ export function ProductFormModal({
                   type="submit"
                   variant="primary"
                   className="flex-1"
-                  disabled={loading}
+                  disabled={loading || imageUploading}
                 >
                   {loading ? (
                     <>
                       <Loader2 className="size-5 animate-spin" />
                       Guardando...
+                    </>
+                  ) : imageUploading ? (
+                    <>
+                      <Loader2 className="size-5 animate-spin" />
+                      Subiendo imagen…
                     </>
                   ) : (
                     'Guardar'

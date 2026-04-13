@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  env: {
+    NEXT_CLOUDINARY_UPLOAD_PRESET: process.env.NEXT_CLOUDINARY_UPLOAD_PRESET,
+  },
 };
 
 export default nextConfig;
