@@ -37,15 +37,22 @@ export default function AdminProductsPage() {
     { revalidateOnFocus: false }
   );
 
-  const { data: categoriesData } = useSWR('admin-categories', () =>
-    adminApi.getAllCategories({ limit: 100, includeInactive: true }),
+  /** Solo categorías activas: igual que /admin/categories. includeInactive:true mezclaba
+   *  filas desactivadas (p. ej. nombre viejo) y rompía al asignarlas a un producto nuevo. */
+  const { data: categoriesData } = useSWR(
+    ['admin-categories', 'active-only'],
+    () => adminApi.getAllCategories({ limit: 100, includeInactive: false }),
     {
       revalidateOnFocus: false,
-      dedupingInterval: 60000, // 1 minuto - evita refetches innecesarios
+      dedupingInterval: 60000,
     }
   );
 
-  const categories = categoriesData?.data ?? [];
+  const categories = useMemo(() => {
+    const list = categoriesData?.data ?? [];
+    const byId = new Map(list.map((c) => [c._id, c]));
+    return [...byId.values()];
+  }, [categoriesData]);
   const products = data?.data ?? [];
   const totalPages = data?.totalPages ?? 1;
   const total = data?.total ?? 0;
