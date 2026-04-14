@@ -33,7 +33,7 @@ export function MenuContent() {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
     () => searchParams.get('category') ?? null
   );
-  const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc'>('price-asc');
+  const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc'>('price-desc');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -85,7 +85,7 @@ export function MenuContent() {
 
   const isLoading = !productsData && !productsError;
   const hasProducts = sortedProducts.length > 0;
-  const hasFilters = searchQuery || selectedCategoryId || sortBy !== 'price-asc';
+  const hasFilters = searchQuery || selectedCategoryId || sortBy !== 'price-desc';
   const totalProducts = productsData?.total ?? 0;
   const totalPages = productsData?.totalPages ?? 1;
 
@@ -117,7 +117,7 @@ export function MenuContent() {
   const handleClearFilters = useCallback(() => {
     setSearchQuery('');
     setSelectedCategoryId(null);
-    setSortBy('price-asc');
+    setSortBy('price-desc');
   }, []);
 
   const handleCardClick = useCallback((product: Product) => {
