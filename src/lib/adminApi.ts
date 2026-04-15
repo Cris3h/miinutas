@@ -80,6 +80,16 @@ export const adminApi = {
     return handleResponse<Product>(res);
   },
 
+  reorderProducts: async (
+    items: { _id: string; displayOrder: number }[]
+  ) => {
+    const res = await authFetch(`${API_URL}/products/reorder`, {
+      method: 'PATCH',
+      body: JSON.stringify({ items }),
+    });
+    return handleResponse<{ success: boolean }>(res);
+  },
+
   getAllCategories: async (params?: {
     page?: number;
     limit?: number;

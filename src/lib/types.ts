@@ -8,6 +8,7 @@ export interface Product {
   videoUrl?: string;
   category: Category;
   active: boolean;
+  displayOrder: number;
   createdAt: string;
   updatedAt: string;
 }

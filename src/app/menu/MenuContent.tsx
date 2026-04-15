@@ -11,7 +11,6 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { useToast } from '@/hooks/useToast';
 import { SearchBar } from '@/components/menu/SearchBar';
 import { CategoryFilter } from '@/components/menu/CategoryFilter';
-import { SortDropdown } from '@/components/menu/SortDropdown';
 import { ProductCard } from '@/components/menu/ProductCard';
 import { ProductCardPlaceholder } from '@/components/menu/ProductCardPlaceholder';
 import { ProductCardSkeleton } from '@/components/menu/ProductCardSkeleton';
@@ -33,7 +32,6 @@ export function MenuContent() {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
     () => searchParams.get('category') ?? null
   );
-  const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc'>('price-desc');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -79,13 +77,9 @@ export function MenuContent() {
       )
     : products;
 
-  const sortedProducts = [...filteredBySearch].sort((a, b) =>
-    sortBy === 'price-asc' ? a.price - b.price : b.price - a.price
-  );
-
   const isLoading = !productsData && !productsError;
-  const hasProducts = sortedProducts.length > 0;
-  const hasFilters = searchQuery || selectedCategoryId || sortBy !== 'price-desc';
+  const hasProducts = filteredBySearch.length > 0;
+  const hasFilters = searchQuery || selectedCategoryId;
   const totalProducts = productsData?.total ?? 0;
   const totalPages = productsData?.totalPages ?? 1;
 
@@ -117,7 +111,6 @@ export function MenuContent() {
   const handleClearFilters = useCallback(() => {
     setSearchQuery('');
     setSelectedCategoryId(null);
-    setSortBy('price-desc');
   }, []);
 
   const handleCardClick = useCallback((product: Product) => {
@@ -150,7 +143,6 @@ export function MenuContent() {
         <div className="mb-6 space-y-4">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
             <SearchBar value={searchQuery} onChange={setSearchQuery} />
-            <SortDropdown value={sortBy} onChange={setSortBy} />
           </div>
           <CategoryFilter
             categories={categories}
@@ -160,9 +152,9 @@ export function MenuContent() {
           {hasFilters && (
             <div className="flex items-center justify-between rounded-xl border border-gold-300/20 bg-dark-800/50 px-4 py-3">
               <span className="text-sm text-white/70">
-                {sortedProducts.length} producto
-                {sortedProducts.length !== 1 ? 's' : ''} encontrado
-                {sortedProducts.length !== 1 ? 's' : ''}
+                {filteredBySearch.length} producto
+                {filteredBySearch.length !== 1 ? 's' : ''} encontrado
+                {filteredBySearch.length !== 1 ? 's' : ''}
               </span>
               <button
                 type="button"
@@ -218,7 +210,7 @@ export function MenuContent() {
           <p className="mb-4 text-sm text-white/70">
             Página {currentPage} de {totalPages}
             {totalProducts > 0 &&
-              ` · ${sortedProducts.length} de ${totalProducts} productos`}
+              ` · ${filteredBySearch.length} de ${totalProducts} productos`}
           </p>
         )}
 
@@ -232,11 +224,11 @@ export function MenuContent() {
                 : (() => {
                     const placeholdersCount = Math.max(
                       0,
-                      ITEMS_PER_PAGE - sortedProducts.length
+                      ITEMS_PER_PAGE - filteredBySearch.length
                     );
                     return (
                       <>
-                        {sortedProducts.map((product) => (
+                        {filteredBySearch.map((product) => (
                           <ProductCard
                             key={product._id}
                             product={product}

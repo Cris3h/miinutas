@@ -2,13 +2,14 @@
 
 import { useState, useMemo } from 'react';
 import useSWR from 'swr';
-import { Plus } from 'lucide-react';
+import { ArrowUpDown, Loader2, Plus } from 'lucide-react';
 import { adminApi } from '@/lib/adminApi';
 import { useToast } from '@/hooks/useToast';
 import { Button } from '@/components/ui/Button';
 import { ProductsTable } from '@/components/admin/ProductsTable';
 import { ProductsTableSkeleton } from '@/components/admin/ProductsTableSkeleton';
 import { ProductFormModal } from '@/components/admin/ProductFormModal';
+import { ProductSortModal } from '@/components/admin/ProductSortModal';
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { AdminSearchBar } from '@/components/admin/AdminSearchBar';
 import { Select } from '@/components/ui/Select';
@@ -24,6 +25,9 @@ export default function AdminProductsPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Product | null>(null);
+  const [showSortModal, setShowSortModal] = useState(false);
+  const [sortModalProducts, setSortModalProducts] = useState<Product[]>([]);
+  const [sortModalLoading, setSortModalLoading] = useState(false);
 
   const { data, error, isLoading, mutate } = useSWR(
     ['admin-products', page, categoryId || undefined],
@@ -96,14 +100,68 @@ export default function AdminProductsPage() {
     mutate();
   };
 
+  const loadAllActiveProductsForSort = async (): Promise<Product[]> => {
+    const pageSize = 100;
+    let pageNum = 1;
+    const acc: Product[] = [];
+    let totalPages = 1;
+    do {
+      const res = await adminApi.getAllProducts({
+        page: pageNum,
+        limit: pageSize,
+        includeInactive: false,
+      });
+      acc.push(...res.data);
+      totalPages = res.totalPages;
+      pageNum += 1;
+    } while (pageNum <= totalPages);
+    return acc;
+  };
+
+  const handleOpenSortModal = async () => {
+    setSortModalLoading(true);
+    try {
+      const all = await loadAllActiveProductsForSort();
+      setSortModalProducts(all);
+      setShowSortModal(true);
+    } catch (err) {
+      toast.error(
+        err instanceof Error ? err.message : 'Error al cargar productos'
+      );
+    } finally {
+      setSortModalLoading(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-3xl font-bold text-gold-200">Productos</h1>
-        <Button variant="primary" onClick={handleCreateClick}>
-          <Plus className="size-5" />
-          Nuevo Producto
-        </Button>
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-stretch">
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={handleOpenSortModal}
+            disabled={sortModalLoading || isLoading}
+            className="border-gold-300/30"
+          >
+            {sortModalLoading ? (
+              <>
+                <Loader2 className="size-5 animate-spin" />
+                Cargando…
+              </>
+            ) : (
+              <>
+                <ArrowUpDown className="size-5" />
+                Ordenar
+              </>
+            )}
+          </Button>
+          <Button variant="primary" onClick={handleCreateClick}>
+            <Plus className="size-5" />
+            Nuevo Producto
+          </Button>
+        </div>
       </div>
 
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -206,6 +264,13 @@ export default function AdminProductsPage() {
         product={editingProduct}
         onSuccess={handleFormSuccess}
         categories={categories}
+      />
+
+      <ProductSortModal
+        isOpen={showSortModal}
+        onClose={() => setShowSortModal(false)}
+        products={sortModalProducts}
+        onSuccess={handleFormSuccess}
       />
 
       <ConfirmDialog
